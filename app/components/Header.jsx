@@ -29,8 +29,8 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6 text-base font-medium">
             <Link href="/" className="hover:text-orange-400 transition-colors duration-300">Home</Link>
-            <Link href="/about" className="hover:text-orange-400 transition-colors duration-300">About</Link>
-            <Link href="/contact" className="hover:text-orange-400 transition-colors duration-300">Contact</Link>
+            <Link href="/About" className="hover:text-orange-400 transition-colors duration-300">About</Link>
+            <Link href="/Contact" className="hover:text-orange-400 transition-colors duration-300">Contact</Link>
             <button 
               onClick={() => setIsModalOpen(true)}
               className="ml-4 px-5 py-2 rounded-full bg-orange-500 font-semibold hover:bg-orange-600 shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105"
