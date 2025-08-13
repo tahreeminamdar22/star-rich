@@ -35,7 +35,7 @@ export default function Header() {
               onClick={() => setIsModalOpen(true)}
               className="ml-4 px-5 py-2 rounded-full bg-orange-500 font-semibold hover:bg-orange-600 shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-105"
             >
-              Get Started
+              Get Started Now
             </button>
           </nav>
 
