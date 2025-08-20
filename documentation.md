@@ -65,6 +65,9 @@ star-rich/
 
 12/08/25: worked on login and register pages and api routes and connecting to database database and tables recreated Blockers:xampp servre and alias
 
+19/08/25: worked on user dashboard,added  cookies, login functionality is connected to prisma,editable profile info in frontend, designed team,kyc,wallet,income ui
+
+
 🧪 API Testing
 This project uses Postman for testing all backend API routes.
 Auth APIs

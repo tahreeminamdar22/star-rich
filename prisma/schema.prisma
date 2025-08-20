@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  sponsorId  Int?     @default(0)
+  name       String   @db.VarChar(300)
+  email      String   @db.VarChar(100) @unique
+  password   String   @db.VarChar(100)
+  contact    String   @db.VarChar(100)
+  address    String   @db.VarChar(500)
+  joinedOn   DateTime @default(now()) @db.Timestamp(0) @map("joined_on")
+
+  @@map("users")
+}
+
+
+model Banners {
+  id     Int    @id @default(autoincrement())
+  title  String @db.VarChar(100)
+  image  String @db.VarChar(255)
+  status String @db.VarChar(255)
+  @@map("banners")
+
+}
+
+model Sponsors {
+  id           Int @id @default(autoincrement())
+  userId       Int
+  sponsorId    Int
+  level        Int
+  @@map("sponsors")
+
+}
+

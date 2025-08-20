@@ -20,14 +20,11 @@ export default function LoginPage() {
 
       const data = await res.json();
 
-      if (res.ok && data.token) {
-        // Save token in localStorage or cookie
-        localStorage.setItem("token", data.token);
-
-        // Redirect to dashboard
-        router.push("/dashboard");
+      if (res.ok) {
+        // ✅ No need to check data.token because it’s in cookie
+        router.push("/dashboard"); 
       } else {
-        setError(data.message || "Invalid login credentials");
+        setError(data.error || "Invalid login credentials");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -45,9 +42,7 @@ export default function LoginPage() {
           Log In
         </h1>
 
-        {error && (
-          <p className="text-red-400 text-center mb-4">{error}</p>
-        )}
+        {error && <p className="text-red-400 text-center mb-4">{error}</p>}
 
         <input
           type="email"
