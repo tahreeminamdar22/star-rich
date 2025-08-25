@@ -63,9 +63,13 @@ star-rich/
 
 
 
-12/08/25: worked on login and register pages and api routes and connecting to database database and tables recreated Blockers:xampp servre and alias
+12/08/25: worked on login and register pages and api routes and connecting to database database and tables recreated Blockers: xampp servre and alias
 
 19/08/25: worked on user dashboard,added  cookies, login functionality is connected to prisma,editable profile info in frontend, designed team,kyc,wallet,income ui
+
+20/08/25: implemented nextauth.js, removed jwt. 
+Blockers: jwt sessions, nextauth.js sessions, providers in nextauth, routing issues(solved it using lib/auth.js)
+21/08/25: user details were not fetching properly, so solved it by adding api route of fetch user details and used it in profile section of user dashboard.
 
 
 🧪 API Testing

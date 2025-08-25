@@ -50,19 +50,19 @@ export default function Contact() {
           >
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium mb-1">Full Name</label>
+              <label htmlFor="name" className="block text-sm font-medium mb-1">Full Name</label>
               <input
                 type="text"
-                placeholder="Your Name"
+                placeholder="Your Name" name='name'
                 className="w-full border border-gray-300/20 rounded-full px-5 py-3 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:shadow-[0_0_20px_rgba(255,165,0,0.3)]"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
+              <label htmlFor='email' className="block text-sm font-medium mb-1">Email</label>
               <input
-                type="email"
+                type="email" name='email'
                 placeholder="you@example.com"
                 className="w-full border border-gray-300/20 rounded-full px-5 py-3 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:shadow-[0_0_20px_rgba(255,165,0,0.3)]"
               />
@@ -70,8 +70,9 @@ export default function Contact() {
 
             {/* Reason for Contact */}
             <div>
-              <label className="block text-sm font-medium mb-1">Reason for Contact</label>
+              <label htmlFor="reason" className="block text-sm font-medium mb-1">Reason for Contact</label>
               <select
+                name='reason'
                 className="w-full border border-gray-300/20 rounded-full px-5 py-3 bg-transparent text-white appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500 focus:shadow-[0_0_20px_rgba(255,165,0,0.3)]"
               >
                 <option value="" className="bg-[#1a1f2e] text-gray-300">Select an option</option>
@@ -85,8 +86,10 @@ export default function Contact() {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-medium mb-1">Message</label>
+              <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
               <textarea
+                id="message"
+                name="message"
                 rows="4"
                 placeholder="How can we help you?"
                 className="w-full border border-gray-300/20 rounded-2xl px-5 py-3 bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:shadow-[0_0_20px_rgba(255,165,0,0.3)]"

@@ -8,16 +8,53 @@ datasource db {
 }
 
 model Users {
-  id         Int      @id @default(autoincrement()) @db.UnsignedInt
-  sponsorId  Int?     @default(0)
-  name       String   @db.VarChar(300)
-  email      String   @db.VarChar(100) @unique
-  password   String   @db.VarChar(100)
-  contact    String   @db.VarChar(100)
-  address    String   @db.VarChar(500)
-  joinedOn   DateTime @default(now()) @db.Timestamp(0) @map("joined_on")
+  id              Int           @id @default(autoincrement()) @db.UnsignedInt
+  name            String        @db.VarChar(300)
+  email           String        @unique @db.VarChar(100)
+  password        String        @db.VarChar(100)
+  contact         String        @db.VarChar(100)
+  address         String        @db.VarChar(500)
+  joinedOn        DateTime      @default(now()) @map("joined_on") @db.Timestamp(0)
+
+  sponsorId       Int?          @db.UnsignedInt
+  sponsor         Users?        @relation("UserSponsor", fields: [sponsorId], references: [id], onDelete: SetNull)
+  downlines       Users[]       @relation("UserSponsor")
+
+  incomeQualified Boolean       @default(false)
+  directCount     Int           @default(0)
+  leftCount       Int           @default(0)
+  rightCount      Int           @default(0)
+  walletBalance   Int           @default(0)
+  lockedNet       Int           @default(0)
+  upgradeBalance  Int           @default(0)
+  lockedUpgrade   Int           @default(0)
+  referralCode    String?       @default(uuid()) 
+  binaryNodes     BinaryNode?
+  kycs            Kyc[]
+  withdrawals     Withdrawal[]
+  ledgers         Ledger[]
+  payments        Payment[]
+  rewardPayouts   RewardPayout[]
 
   @@map("users")
+}
+
+
+
+
+
+model BinaryNode {
+  userId   Int          @id @db.UnsignedInt
+  parentId Int?         @db.UnsignedInt
+  position Position?
+  parent   BinaryNode?  @relation("Parent", fields: [parentId], references: [userId])
+  children BinaryNode[] @relation("Parent")
+  user     Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([parentId], map: "BinaryNode_parentId_fkey")
+  @@unique([parentId, position]) // ✅ ensures no duplicate L/R under the same parent
+
+  @@map("binaryNodes")
 }
 
 
@@ -26,16 +63,116 @@ model Banners {
   title  String @db.VarChar(100)
   image  String @db.VarChar(255)
   status String @db.VarChar(255)
-  @@map("banners")
 
+  @@map("banners")
 }
 
 model Sponsors {
-  id           Int @id @default(autoincrement())
-  userId       Int
-  sponsorId    Int
-  level        Int
-  @@map("sponsors")
+  id        Int @id @default(autoincrement())
+  userId    Int
+  sponsorId Int
+  level     Int
 
+  @@map("sponsors")
 }
 
+enum Position {
+  L
+  R
+}
+
+model Ancestor {
+  id           Int @id @default(autoincrement())
+  ancestorId   Int
+  descendantId Int
+  depth        Int // 1..20 (1 means direct parent in binary tree)
+
+  @@unique([ancestorId, descendantId])
+  @@index([ancestorId, depth])
+  @@index([descendantId, depth])
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  users     Users    @relation(fields: [userId], references: [id])
+  gateway   String
+  orderId   String   @unique
+  status    String
+  amount    Int
+  meta      Json?
+  createdAt DateTime @default(now())
+  paidAt    DateTime?
+}
+
+model Ledger {
+  id         Int      @id @default(autoincrement())
+  userId     Int?
+  user       Users?   @relation(fields: [userId], references: [id])
+  type       String
+  refId      String?  @unique   // ensure every refId is unique
+  amount     Int
+  levelDepth Int?
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId, type])
+  @@index([type, levelDepth])
+}
+
+
+model Kyc {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        Users    @relation(fields: [userId], references: [id])
+  status      String   @default("pending")
+  fullName    String?
+  pan         String?
+  aadhaar     String?
+  bankIfsc    String?
+  bankAccount String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Withdrawal {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        Users    @relation(fields: [userId], references: [id])
+  amount      Int
+  status      String   @default("requested")
+  adminNote   String?
+  requestedAt DateTime @default(now())
+  resolvedAt  DateTime?
+}
+
+model RewardsPoolSnapshot {
+  id               Int      @id @default(autoincrement())
+  label            String   @unique
+  levelDepth       Int?
+  totalCompanyFund Int
+  rewardsPortion   Int
+  createdAt        DateTime @default(now())
+
+  rewardPayouts    RewardPayout[]
+}
+
+model RewardPayout {
+  id         Int                 @id @default(autoincrement())
+  userId     Int
+  snapshotId Int
+  amount     Int
+  title      String
+  createdAt  DateTime            @default(now())
+
+  user       Users               @relation(fields: [userId], references: [id])
+  snapshot   RewardsPoolSnapshot @relation(fields: [snapshotId], references: [id])
+
+  @@index([userId])
+  @@index([snapshotId])
+}
+
+model Config {
+  key   String @id
+  value Json
+}

@@ -56,7 +56,7 @@ export default function KycPage() {
   };
 
   return (
-    <main className="p-8 min-h-screen bg-gradient-to-b from-white to-orange-50">
+    <main className="p-8 min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-orange-600 drop-shadow-sm">
         🛡️ KYC Verification
       </h1>
@@ -65,7 +65,7 @@ export default function KycPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-6 p-4 bg-white rounded-xl shadow border-l-4 border-orange-400"
+        className="mb-6 p-4 bg-gray-400 rounded-xl shadow border-l-4 border-orange-400"
       >
         <h2 className="text-lg font-bold text-gray-700 mb-2">Current Status</h2>
         {renderStatus()}

@@ -37,7 +37,7 @@ export default function WalletPage() {
   };
 
   return (
-    <main className="p-8 min-h-screen bg-gradient-to-b from-white to-orange-50">
+    <main className="p-8 min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-orange-600 drop-shadow-sm">
         <Wallet className="inline-block mr-2" size={28}/> Wallet
       </h1>
@@ -46,7 +46,7 @@ export default function WalletPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-6 p-6 bg-white rounded-2xl shadow-lg border-l-4 border-orange-500"
+        className="mb-6 p-6 bg-gray-100 rounded-2xl shadow-lg border-l-4 border-orange-500"
       >
         <h2 className="text-lg font-bold text-gray-700 mb-2">Available Balance</h2>
         <p className="text-3xl font-extrabold text-orange-600">₹ {balance.toLocaleString()}</p>
